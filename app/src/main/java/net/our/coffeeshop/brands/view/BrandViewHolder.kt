@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import net.our.coffeeshop.R
 
-class BrandViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    constructor(context: Context?, @LayoutRes id: Int, parent: ViewGroup?)
-            : this(LayoutInflater.from(context).inflate(id, parent, false))
+class BrandViewHolder(itemView: View, itemClick: View.OnClickListener) : RecyclerView.ViewHolder(itemView) {
 
-    var textview:TextView? = null
+    constructor(context: Context?, @LayoutRes id: Int, parent: ViewGroup?, itemClick: View.OnClickListener)
+            : this(LayoutInflater.from(context).inflate(id, parent, false), itemClick)
+
+    var textview: TextView? = null
+
     init {
         textview = itemView.findViewById(R.id.brand_title) as TextView?
+        itemView.setOnClickListener(itemClick)
     }
 }

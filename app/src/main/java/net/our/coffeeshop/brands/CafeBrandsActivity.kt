@@ -3,6 +3,8 @@ package net.our.coffeeshop.brands
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -24,7 +26,7 @@ class CafeBrandsActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        adapter = BrandAdapter()
+        adapter = BrandAdapter(itemClickListener)
         brands_list.adapter = adapter
 
         btn_put_data.setOnClickListener {
@@ -54,6 +56,13 @@ class CafeBrandsActivity : AppCompatActivity() {
             }
             adapter?.setBrandData(brands)
         }
+    }
 
+    val itemClickListener = object : View.OnClickListener {
+        override fun onClick(v: View?) {
+            val itemPosition = brands_list.getChildLayoutPosition(v)
+            val brand = adapter?.getItem(itemPosition)
+            Toast.makeText(this@CafeBrandsActivity, brand, Toast.LENGTH_SHORT).show()
+        }
     }
 }

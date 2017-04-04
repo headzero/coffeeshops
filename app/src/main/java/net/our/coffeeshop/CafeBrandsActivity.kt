@@ -11,16 +11,20 @@ import net.our.coffeeshop.database.DBManager
 
 class CafeBrandsActivity : AppCompatActivity() {
 
-    val database: DBManager by lazy {
-        DBManager("brands", valueEventListener)
-    }
+    var database: DBManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btn_put_data.setOnClickListener {
-            database.create(text_view.text.toString())
+            database?.create(text_view.text.toString())
         }
+
+        initAndLoad()
+    }
+
+    private fun initAndLoad() {
+        database = DBManager("brands", valueEventListener)
     }
 
     val valueEventListener = object : ValueEventListener {

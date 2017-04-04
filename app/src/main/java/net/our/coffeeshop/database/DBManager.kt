@@ -8,6 +8,7 @@ class DBManager {
     val databaseRef: DatabaseReference
 
     constructor(referenceKey: String, valueEventListener: ValueEventListener?) {
+        // databaseReference를 만드는 시점에 해당 child를 가져오게 되어있음.
         databaseRef = FirebaseDatabase.getInstance().getReference(referenceKey)
         valueEventListener?.let {
             databaseRef.addValueEventListener(valueEventListener)
@@ -29,9 +30,5 @@ class DBManager {
 
     open fun read(key: String): Any {
         return databaseRef.child(key)
-    }
-
-    open fun list():Any {
-        return databaseRef.orderByKey()
     }
 }

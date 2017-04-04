@@ -11,7 +11,7 @@ import net.our.coffeeshop.database.DBManager
 
 class CafeBrandsActivity : AppCompatActivity() {
 
-    val database:DBManager by lazy {
+    val database: DBManager by lazy {
         DBManager("brands", valueEventListener)
     }
 
@@ -29,7 +29,10 @@ class CafeBrandsActivity : AppCompatActivity() {
         }
 
         override fun onDataChange(dataSnapshot: DataSnapshot?) {
-            if(dataSnapshot == null) return
+            // 아마도 입력 성공. 다른 이벤트 일 때는?
+
+            if (dataSnapshot == null) return
+            text_view.setText("")
             val result = dataSnapshot.children // iterable
             result.forEach {
                 Log.d("MAINACTIVITY", "Value is: ${it.key} = ${it.value}")

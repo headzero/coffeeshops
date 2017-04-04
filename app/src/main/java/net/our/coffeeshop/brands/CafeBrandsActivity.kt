@@ -1,4 +1,4 @@
-package net.our.coffeeshop
+package net.our.coffeeshop.brands
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -6,21 +6,30 @@ import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_cafe_brands.*
+import net.our.coffeeshop.R
+import net.our.coffeeshop.brands.view.BrandAdapter
 import net.our.coffeeshop.database.DBManager
 
 class CafeBrandsActivity : AppCompatActivity() {
 
     var database: DBManager? = null
+    var adapter: BrandAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_cafe_brands)
+        initView()
+        initAndLoad()
+    }
+
+    private fun initView() {
+        adapter = BrandAdapter()
+        brands_list.adapter = adapter
+
         btn_put_data.setOnClickListener {
             database?.create(text_view.text.toString())
         }
-
-        initAndLoad()
     }
 
     private fun initAndLoad() {
@@ -38,9 +47,12 @@ class CafeBrandsActivity : AppCompatActivity() {
             if (dataSnapshot == null) return
             text_view.setText("")
             val result = dataSnapshot.children // iterable
-            result.forEach {
-                Log.d("MAINACTIVITY", "Value is: ${it.key} = ${it.value}")
+            val brands: ArrayList<String> = ArrayList()
+            for (item in result) {
+                Log.d("MAINACTIVITY", "Value is: ${item.key} = ${item.value}")
+                brands.add(item.value as String)
             }
+            adapter?.setBrandData(brands)
         }
 
     }
